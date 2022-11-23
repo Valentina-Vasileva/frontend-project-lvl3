@@ -8,6 +8,7 @@ export default {
         label: 'RSS link',
         placeholder: 'RSS link',
         example: 'Example: https://ru.hexlet.io/lessons.rss',
+        error_text: 'Link must be a valid URL',
       },
     },
     buttons: {
