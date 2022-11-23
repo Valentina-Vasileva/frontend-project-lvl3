@@ -6,13 +6,11 @@ const render = (i18nInstance) => {
   localize(i18nInstance);
 };
 
-export default async () => {
+export default () => {
   const i18nInstance = i18next.createInstance();
-  await i18nInstance.init({
+  i18nInstance.init({
     lng: 'ru',
     debug: false,
     resources,
-  });
-
-  render(i18nInstance);
+  }).then(() => render(i18nInstance));
 };
