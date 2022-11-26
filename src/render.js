@@ -3,10 +3,7 @@ import localize from './localize';
 export default (state, i18nInstance) => {
   localize(i18nInstance);
 
-  const oldErrors = document.querySelectorAll('.feedback');
-  oldErrors.forEach((oldError) => {
-    oldError.remove();
-  });
+  document.querySelectorAll('.feedback').forEach((oldError) => oldError.remove());
 
   const example = document.querySelector('#url-example');
   const newErrors = state.errors.map((error) => {
