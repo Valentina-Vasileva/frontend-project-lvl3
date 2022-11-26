@@ -1,20 +1,19 @@
-import _ from 'lodash';
 import localize from './localize';
 
 export default (state, i18nInstance) => {
   localize(i18nInstance);
 
-  const oldError = document.querySelector('.feedback');
-  if (oldError) {
+  const oldErrors = document.querySelectorAll('.feedback');
+  oldErrors.forEach((oldError) => {
     oldError.remove();
-  }
+  });
 
-  if (!_.isEmpty(state.errors)) {
-    const example = document.querySelector('#url-example');
-    const error = document.createElement('p');
-
-    error.classList.add('feedback', 'small', 'text-danger', 'position-absolute');
-    error.textContent = i18nInstance.t('inputs.url.error_text');
-    example.after(error);
-  }
+  const example = document.querySelector('#url-example');
+  const newErrors = state.errors.map((error) => {
+    const errorEl = document.createElement('p');
+    errorEl.classList.add('feedback', 'small', 'text-danger', 'position-absolute');
+    errorEl.textContent = error;
+    return errorEl;
+  });
+  example.after(...newErrors);
 };
