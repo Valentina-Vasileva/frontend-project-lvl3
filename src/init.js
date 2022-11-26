@@ -1,31 +1,12 @@
 import i18next from 'i18next';
 import { object, string } from 'yup';
-import onChange from 'on-change';
-import _ from 'lodash';
-import localize from './localize.js';
 import resources from './locales/index.js';
+import render from './render.js';
+import watch from './watch.js';
 
 const validationSchema = object({
   url: string().url().required(),
 });
-
-const render = (state, i18nInstance) => {
-  localize(i18nInstance);
-
-  const oldError = document.querySelector('.feedback');
-  if (oldError) {
-    oldError.remove();
-  }
-
-  if (!_.isEmpty(state.errors)) {
-    const example = document.querySelector('#url-example');
-    const error = document.createElement('p');
-
-    error.classList.add('feedback', 'small', 'text-danger', 'position-absolute');
-    error.textContent = i18nInstance.t('inputs.url.error_text');
-    example.after(error);
-  }
-};
 
 export default () => {
   const state = {
@@ -41,9 +22,7 @@ export default () => {
     resources,
   }).then(() => render(state, i18nInstance));
 
-  const watchedState = onChange(state, () => {
-    render(state, i18nInstance);
-  });
+  const watchedState = watch(state, i18nInstance);
 
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => {
