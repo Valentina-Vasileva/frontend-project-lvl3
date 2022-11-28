@@ -1,7 +1,8 @@
 import i18next from 'i18next';
+import axios from 'axios';
 import { object, string, setLocale } from 'yup';
 import resources from './locales/index.js';
-import render from './render.js';
+import { renderInitialState } from './render.js';
 import watch from './watch.js';
 
 const validateForm = (formData, i18nInstance = null) => {
@@ -25,10 +26,29 @@ const validateForm = (formData, i18nInstance = null) => {
   return validationSchema.validate(data);
 };
 
+const getProxiedUrl = (url) => {
+  const proxy = 'https://allorigins.hexlet.app/';
+  const proxyUrl = new URL('/get', proxy);
+  proxyUrl.search = `url=${encodeURIComponent(url)}&disableCache=true`;
+  return proxyUrl;
+};
+
+const uploadFeed = (state) => {
+  axios.get(getProxiedUrl(state.url.data)).then();
+};
+
 export default () => {
   const state = {
-    url: '',
-    errors: [],
+    url: {
+      data: '',
+      errors: [],
+    },
+    dataLoading: {
+      status: 'inactivity',
+      errors: [],
+    },
+    feeds: [],
+    posts: [],
   };
 
   const i18nInstance = i18next.createInstance();
@@ -37,9 +57,9 @@ export default () => {
     lng: 'ru',
     debug: false,
     resources,
-  }).then(() => render(state, i18nInstance))
+  }).then(() => renderInitialState(i18nInstance))
     .then(() => {
-      const watchedState = watch(state, i18nInstance);
+      const watchedState = watch(state);
 
       const form = document.querySelector('form');
       form.addEventListener('submit', (e) => {
@@ -49,11 +69,12 @@ export default () => {
 
         validateForm(data, i18nInstance)
           .then(() => {
-            watchedState.url = data.get('url');
-            watchedState.errors = [];
+            watchedState.url.data = data.get('url');
+            watchedState.url.errors = [];
           })
+          // .then(() => uploadFeed(watchedState.url.data))
           .catch((errors) => {
-            watchedState.errors = errors.errors;
+            watchedState.url.errors = errors.errors;
           });
       });
     })

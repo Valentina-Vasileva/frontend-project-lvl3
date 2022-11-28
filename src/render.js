@@ -1,12 +1,13 @@
 import localize from './localize';
 
-export default (state, i18nInstance) => {
-  localize(i18nInstance);
+const renderInitialState = (i18nInstance) => localize(i18nInstance);
 
+const renderValidationErrors = (state) => {
   document.querySelectorAll('.feedback').forEach((oldError) => oldError.remove());
 
   const example = document.querySelector('#url-example');
-  const newErrors = state.errors.map((error) => {
+
+  const newErrors = state.url.errors.map((error) => {
     const errorEl = document.createElement('p');
     errorEl.classList.add('feedback', 'small', 'text-danger', 'position-absolute');
     errorEl.textContent = error;
@@ -14,3 +15,5 @@ export default (state, i18nInstance) => {
   });
   example.after(...newErrors);
 };
+
+export { renderInitialState, renderValidationErrors };

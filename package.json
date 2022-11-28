@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Valentina-Vasileva/frontend-project-lvl3#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "axios": "^1.2.0",
     "bootstrap": "^5.2.2",
     "i18next": "^22.0.6",
     "lodash": "^4.17.21",
