@@ -2,20 +2,23 @@ import i18next from 'i18next';
 import axios from 'axios';
 import { object, string, setLocale } from 'yup';
 import resources from './locales/index.js';
-import { renderInitialState } from './render.js';
 import watch from './watch.js';
+import parse from './parse.js';
 
-const validateForm = (formData, i18nInstance = null) => {
+const validateForm = (formData, state, i18nInstance = null) => {
   if (i18nInstance) {
     setLocale({
+      mixed: {
+        notOneOf: i18nInstance.t('inputs.url.errors.one_of'),
+      },
       string: {
-        url: i18nInstance.t('inputs.url.error_text'),
+        url: i18nInstance.t('inputs.url.errors.invalid'),
       },
     });
   }
 
   const validationSchema = object({
-    url: string().url().required(),
+    url: string().url().required().notOneOf(state.feeds.map((feed) => feed.url)),
   });
 
   const data = {};
@@ -33,8 +36,35 @@ const getProxiedUrl = (url) => {
   return proxyUrl;
 };
 
-const uploadFeed = (state) => {
-  axios.get(getProxiedUrl(state.url.data)).then();
+const getTypeOfErrorMessage = (message) => {
+  switch (message) {
+    case 'Parsing error':
+      return 'parsing';
+    case 'Network Error':
+      return 'network';
+    default:
+      return message;
+  }
+};
+
+const uploadFeed = (state, i18nInstance) => {
+  state.dataLoading.status = 'processing';
+  axios.get(getProxiedUrl(state.url.data))
+    .then((response) => {
+      const feed = parse(response.data.contents, 'application/xml');
+      state.feeds.push({ ...feed, url: state.url.data });
+      if (feed.posts.length > 0) {
+        state.posts.push(feed.posts);
+      }
+      state.dataLoading.status = 'finished';
+      state.dataLoading.status = 'inactivity';
+    })
+    .catch((error) => {
+      const typeOfMessage = getTypeOfErrorMessage(error.message);
+      state.dataLoading.errors.push(i18nInstance.t(`data_loading.errors.${typeOfMessage}`));
+      state.dataLoading.status = 'failed';
+      state.dataLoading.status = 'inactivity';
+    });
 };
 
 export default () => {
@@ -47,6 +77,7 @@ export default () => {
       status: 'inactivity',
       errors: [],
     },
+    DOMContentLoaded: false,
     feeds: [],
     posts: [],
   };
@@ -55,28 +86,32 @@ export default () => {
 
   i18nInstance.init({
     lng: 'ru',
-    debug: false,
+    debug: true,
     resources,
-  }).then(() => renderInitialState(i18nInstance))
-    .then(() => {
-      const watchedState = watch(state);
+  }).then(() => {
+    const watchedState = watch(state, i18nInstance);
 
-      const form = document.querySelector('form');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    document.addEventListener('DOMContentLoaded', () => {
+      watchedState.DOMContentLoaded = true;
+    });
 
-        const data = new FormData(e.target);
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-        validateForm(data, i18nInstance)
-          .then(() => {
-            watchedState.url.data = data.get('url');
-            watchedState.url.errors = [];
-          })
-          // .then(() => uploadFeed(watchedState.url.data))
-          .catch((errors) => {
-            watchedState.url.errors = errors.errors;
-          });
-      });
-    })
+      const data = new FormData(e.target);
+
+      validateForm(data, watchedState, i18nInstance)
+        .then(() => {
+          watchedState.url.data = data.get('url');
+          watchedState.url.errors = [];
+          uploadFeed(watchedState, i18nInstance);
+        })
+        .catch((errors) => {
+          console.log(errors.errors);
+          watchedState.url.errors = errors.errors;
+        });
+    });
+  })
     .catch((error) => console.error(error));
 };

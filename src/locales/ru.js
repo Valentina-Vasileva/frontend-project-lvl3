@@ -8,7 +8,17 @@ export default {
         label: 'Ссылка RSS',
         placeholder: 'Ссылка RSS',
         example: 'Пример: https://ru.hexlet.io/lessons.rss',
-        error_text: 'Ссылка должна быть валидным URL',
+        errors: {
+          invalid: 'Ссылка должна быть валидным URL',
+          one_of: 'RSS уже существует',
+        },
+      },
+    },
+    data_loading: {
+      success: 'RSS успешно загружен',
+      errors: {
+        parsing: 'Ресурс не содержит валидный RSS',
+        network: 'Ошибка сети',
       },
     },
     buttons: {
