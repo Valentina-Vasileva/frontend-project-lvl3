@@ -32,20 +32,12 @@ const renderErrors = (errors) => {
   example.after(...newErrors);
 };
 
-const renderBlockedForm = () => {
+const renderFormState = (blocked = false) => {
   const form = document.querySelector('form');
   const button = form.querySelector('input[type="submit"]');
   const input = form.querySelector('#url-input');
-  button.disabled = true;
-  input.disabled = true;
-};
-
-const renderUnblockedForm = () => {
-  const form = document.querySelector('form');
-  const button = form.querySelector('input[type="submit"]');
-  const input = form.querySelector('#url-input');
-  button.disabled = false;
-  input.disabled = false;
+  button.disabled = blocked;
+  input.disabled = blocked;
 };
 
 const renderSuccessDataLoadingMessage = (i18nInstance) => {
@@ -62,7 +54,6 @@ const renderSuccessDataLoadingMessage = (i18nInstance) => {
 export {
   renderInitialState,
   renderErrors,
-  renderBlockedForm,
-  renderUnblockedForm,
+  renderFormState,
   renderSuccessDataLoadingMessage,
 };

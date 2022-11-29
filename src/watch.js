@@ -1,19 +1,18 @@
 import onChange from 'on-change';
 import {
   renderErrors,
-  renderBlockedForm,
-  renderUnblockedForm,
   renderSuccessDataLoadingMessage,
   renderInitialState,
+  renderFormState,
 } from './render.js';
 
 const watchDataLoadingStatus = (state, i18nInstance, value) => {
   switch (value) {
     case 'processing':
-      renderBlockedForm();
+      renderFormState(true);
       break;
     case 'inactivity':
-      renderUnblockedForm();
+      renderFormState(false);
       break;
     case 'finished':
       renderSuccessDataLoadingMessage(i18nInstance);
