@@ -49,6 +49,9 @@ const renderSuccessDataLoadingMessage = (i18nInstance) => {
   successMessageEl.classList.add('feedback', 'small', 'text-success', 'position-absolute');
   successMessageEl.textContent = i18nInstance.t('data_loading.success');
   example.after(successMessageEl);
+
+  const input = document.querySelector('#url-input');
+  input.value = '';
 };
 
 const renderFeeds = (feeds, i18nInstance) => {

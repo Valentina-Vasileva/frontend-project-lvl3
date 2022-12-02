@@ -19,6 +19,7 @@ export default {
       errors: {
         parsing: 'Ресурс не содержит валидный RSS',
         network: 'Ошибка сети',
+        default: 'Неизвестная ошибка. Что-то пошло не так.',
       },
     },
     buttons: {

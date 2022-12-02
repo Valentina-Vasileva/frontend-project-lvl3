@@ -46,7 +46,7 @@ const getTypeOfErrorMessage = (message) => {
     case 'Network Error':
       return 'network';
     default:
-      return message;
+      return 'default';
   }
 };
 

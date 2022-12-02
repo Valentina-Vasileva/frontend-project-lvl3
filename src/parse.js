@@ -1,7 +1,7 @@
 const mapPosts = (postNodes) => Array.from(postNodes).map((post) => {
-  const title = post.querySelector('title').textContent;
-  const description = post.querySelector('description').textContent;
-  const link = post.querySelector('link').textContent;
+  const title = post.querySelector('title')?.textContent ?? '';
+  const description = post.querySelector('description')?.textContent ?? '';
+  const link = post.querySelector('link')?.textContent ?? '';
   return { title, description, link };
 });
 
@@ -15,8 +15,8 @@ export default (content, type) => {
   }
 
   const feed = parsedContent.querySelector('channel');
-  const title = feed.querySelector('title').textContent;
-  const description = feed.querySelector('description').textContent;
+  const title = feed.querySelector('title')?.textContent ?? '';
+  const description = feed.querySelector('description')?.textContent ?? '';
   const link = feed.querySelector('link').textContent;
   const posts = mapPosts(feed.querySelectorAll('item'));
 

@@ -8,6 +8,9 @@ env:
 extends:
   - "airbnb-base"
 
+parserOptions:
+  ecmaVersion: latest
+
 rules:
   no-console: 0
   import/extensions: 0
