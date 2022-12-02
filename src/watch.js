@@ -4,6 +4,8 @@ import {
   renderSuccessDataLoadingMessage,
   renderInitialState,
   renderFormState,
+  renderFeeds,
+  renderPosts,
 } from './render.js';
 
 const watchDataLoadingStatus = (state, i18nInstance, value) => {
@@ -35,6 +37,12 @@ export default (state, i18nInstance) => onChange(state, (path, value) => {
       break;
     case 'DOMContentLoaded':
       renderInitialState(i18nInstance);
+      break;
+    case 'feeds':
+      renderFeeds(state.feeds, i18nInstance);
+      break;
+    case 'posts':
+      renderPosts(state.posts, i18nInstance);
       break;
     default:
       break;

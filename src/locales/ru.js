@@ -23,6 +23,13 @@ export default {
     },
     buttons: {
       add: 'Добавить',
+      watch: 'Просмотр',
+    },
+    feeds: {
+      title: 'Фиды',
+    },
+    posts: {
+      title: 'Посты',
     },
     author: 'created by Valentina',
   },

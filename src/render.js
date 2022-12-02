@@ -51,9 +51,70 @@ const renderSuccessDataLoadingMessage = (i18nInstance) => {
   example.after(successMessageEl);
 };
 
+const renderFeeds = (feeds, i18nInstance) => {
+  const feedsEl = document.querySelector('.feeds');
+  feedsEl.innerHTML = '';
+
+  if (feeds.length > 0) {
+    const feedsTitle = document.createElement('h2');
+    feedsTitle.textContent = i18nInstance.t('feeds.title');
+
+    const ul = document.createElement('ul');
+    ul.classList.add('list-group');
+
+    const feedLiEls = feeds.map((feed) => {
+      const li = document.createElement('li');
+      li.classList.add('list-group-item', 'border-0');
+
+      const titleEl = document.createElement('h3');
+      titleEl.textContent = feed.title;
+
+      const descEl = document.createElement('p');
+      descEl.textContent = feed.description;
+
+      li.append(titleEl, descEl);
+      return li;
+    });
+    ul.append(...feedLiEls);
+    feedsEl.append(feedsTitle, ul);
+  }
+};
+
+const renderPosts = (posts, i18nInstance) => {
+  const postsEl = document.querySelector('.posts');
+  postsEl.innerHTML = '';
+
+  if (posts.length > 0) {
+    const postsTitle = document.createElement('h2');
+    postsTitle.textContent = i18nInstance.t('posts.title');
+
+    const ul = document.createElement('ul');
+    ul.classList.add('list-group');
+
+    const postLiEls = posts.map((post) => {
+      const li = document.createElement('li');
+      li.classList.add('list-group-item', 'border-0');
+
+      const a = document.createElement('a');
+      a.textContent = post.title;
+      a.href = post.link;
+
+      const button = document.createElement('button');
+      button.textContent = i18nInstance.t('buttons.watch');
+
+      li.append(a, button);
+      return li;
+    });
+    ul.append(...postLiEls);
+    postsEl.append(postsTitle, ul);
+  }
+};
+
 export {
   renderInitialState,
   renderErrors,
   renderFormState,
   renderSuccessDataLoadingMessage,
+  renderFeeds,
+  renderPosts,
 };
