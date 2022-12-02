@@ -1,9 +1,12 @@
 import i18next from 'i18next';
 import axios from 'axios';
 import { object, string, setLocale } from 'yup';
+import uniqueId from 'lodash/uniqueId.js';
 import resources from './locales/index.js';
 import watch from './watch.js';
 import parse from './parse.js';
+
+const INTERVAL = 5000;
 
 const validateForm = (formData, state, i18nInstance = null) => {
   if (i18nInstance) {
@@ -47,17 +50,27 @@ const getTypeOfErrorMessage = (message) => {
   }
 };
 
+const uploadFeedPosts = (state, feed) => {
+  axios.get(getProxiedUrl(feed.url))
+    .then((response) => {
+      const { posts } = parse(response.data.contents, 'application/xml');
+      posts.filter(({ link }) => !state.posts.map((post) => post.link).includes(link))
+        .forEach((post) => state.posts.push({ ...post, id: uniqueId() }));
+    })
+    .catch((error) => console.error(error));
+};
+
 const uploadFeed = (state, i18nInstance) => {
   state.dataLoading.status = 'processing';
   axios.get(getProxiedUrl(state.url.data))
     .then((response) => {
-      const feed = parse(response.data.contents, 'application/xml');
-      state.feeds.push({ ...feed, url: state.url.data });
-      if (feed.posts.length > 0) {
-        state.posts.push(feed.posts);
-      }
+      const feedContent = parse(response.data.contents, 'application/xml');
+      const feed = { ...feedContent, url: state.url.data, id: uniqueId() };
+      state.feeds.push(feed);
+      feed.posts.forEach((post) => state.posts.push({ ...post, id: uniqueId() }));
       state.dataLoading.status = 'finished';
       state.dataLoading.status = 'inactivity';
+      setInterval(() => uploadFeedPosts(state, feed), INTERVAL);
     })
     .catch((error) => {
       const typeOfMessage = getTypeOfErrorMessage(error.message);
