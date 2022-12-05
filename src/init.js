@@ -50,12 +50,13 @@ const getTypeOfErrorMessage = (message) => {
   }
 };
 
-const uploadFeedPosts = (state, feed) => {
+const uploadNewFeedPosts = (state, feed) => {
   axios.get(getProxiedUrl(feed.url))
     .then((response) => {
       const { posts } = parse(response.data.contents, 'application/xml');
       posts.filter(({ link }) => !state.posts.map((post) => post.link).includes(link))
         .forEach((post) => state.posts.push({ ...post, id: uniqueId() }));
+      setTimeout(uploadNewFeedPosts, INTERVAL, state, feed);
     })
     .catch((error) => console.error(error));
 };
@@ -70,7 +71,7 @@ const uploadFeed = (state, i18nInstance) => {
       feed.posts.forEach((post) => state.posts.push({ ...post, id: uniqueId() }));
       state.dataLoading.status = 'finished';
       state.dataLoading.status = 'inactivity';
-      setInterval(() => uploadFeedPosts(state, feed), INTERVAL);
+      setTimeout(uploadNewFeedPosts, INTERVAL, state, feed);
     })
     .catch((error) => {
       const typeOfMessage = getTypeOfErrorMessage(error.message);
