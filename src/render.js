@@ -61,19 +61,22 @@ const renderFeeds = (feeds, i18nInstance) => {
   if (feeds.length > 0) {
     const feedsTitle = document.createElement('h2');
     feedsTitle.textContent = i18nInstance.t('feeds.title');
+    feedsTitle.classList.add('h4', 'my-4');
 
     const ul = document.createElement('ul');
     ul.classList.add('list-group');
 
     const feedLiEls = feeds.map((feed) => {
       const li = document.createElement('li');
-      li.classList.add('list-group-item', 'border-0');
+      li.classList.add('list-group-item', 'border-0', 'px-0');
 
       const titleEl = document.createElement('h3');
       titleEl.textContent = feed.title;
+      titleEl.classList.add('h6', 'm-0');
 
       const descEl = document.createElement('p');
       descEl.textContent = feed.description;
+      descEl.classList.add('small', 'm-0', 'text-black-50');
 
       li.append(titleEl, descEl);
       return li;
@@ -90,20 +93,23 @@ const renderPosts = (posts, i18nInstance) => {
   if (posts.length > 0) {
     const postsTitle = document.createElement('h2');
     postsTitle.textContent = i18nInstance.t('posts.title');
+    postsTitle.classList.add('h4', 'my-4');
 
     const ul = document.createElement('ul');
     ul.classList.add('list-group');
 
     const postLiEls = posts.map((post) => {
       const li = document.createElement('li');
-      li.classList.add('list-group-item', 'border-0');
+      li.classList.add('list-group-item', 'border-0', 'align-items-start', 'justify-content-between', 'd-flex', 'px-0');
 
       const a = document.createElement('a');
       a.textContent = post.title;
       a.href = post.link;
+      a.classList.add('fw-bold');
 
       const button = document.createElement('button');
       button.textContent = i18nInstance.t('buttons.watch');
+      button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
 
       li.append(a, button);
       return li;
