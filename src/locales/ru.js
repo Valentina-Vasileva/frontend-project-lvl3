@@ -25,6 +25,8 @@ export default {
     buttons: {
       add: 'Добавить',
       watch: 'Просмотр',
+      read: 'Читать полностью',
+      close: 'Закрыть',
     },
     feeds: {
       title: 'Фиды',

@@ -137,6 +137,7 @@ export default () => {
       const { postId } = postEl.dataset;
       if (postId) {
         watchedState.uiState.viewedPostIds.add(postId);
+        watchedState.uiState.currentPostId = postEl.tagName === 'BUTTON' ? postId : null;
       }
     });
   })

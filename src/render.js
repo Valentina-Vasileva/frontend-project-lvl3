@@ -8,6 +8,13 @@ const renderInitialState = (i18nInstance) => {
   const urlExample = document.querySelector('#url-example');
   const author = document.querySelector('#author');
 
+  const postModal = document.querySelector('#postModal');
+  const modalHeader = postModal.querySelector('.modal-header');
+  const modalFooter = postModal.querySelector('.modal-footer');
+  const headerButtonClose = modalHeader.querySelector('.btn-close');
+  const linkToResource = modalFooter.querySelector('a');
+  const footerButtonClose = modalFooter.querySelector('button');
+
   title.textContent = i18nInstance.t('title');
   h1.textContent = i18nInstance.t('app_name');
   lead.textContent = i18nInstance.t('lead');
@@ -16,6 +23,9 @@ const renderInitialState = (i18nInstance) => {
   addButton.value = i18nInstance.t('buttons.add');
   urlExample.textContent = i18nInstance.t('inputs.url.example');
   author.textContent = i18nInstance.t('author');
+  headerButtonClose.setAttribute('aria-labelledby', i18nInstance.t('buttons.close'));
+  linkToResource.textContent = i18nInstance.t('buttons.read');
+  footerButtonClose.textContent = i18nInstance.t('buttons.close');
 };
 
 const renderErrors = (errors) => {
@@ -113,6 +123,8 @@ const renderPosts = (posts, i18nInstance) => {
       button.textContent = i18nInstance.t('buttons.watch');
       button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
       button.dataset.postId = post.id;
+      button.dataset.bsToggle = 'modal';
+      button.dataset.bsTarget = '#postModal';
 
       li.append(a, button);
       return li;
@@ -129,6 +141,23 @@ const renderViewedPosts = (viewedPostIds) => {
   });
 };
 
+const renderPostModal = (state) => {
+  const modal = document.querySelector('#postModal');
+  const modalHeader = modal.querySelector('.modal-header');
+  const modalFooter = modal.querySelector('.modal-footer');
+
+  const modalTitle = modalHeader.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  const linkToResource = modalFooter.querySelector('a');
+
+  const post = state.posts.find(({ id }) => id === state.uiState.currentPostId);
+
+  modalTitle.textContent = post.title;
+  modalBody.textContent = post.description;
+  linkToResource.href = post.link;
+  linkToResource.target = '_blank';
+};
+
 export {
   renderInitialState,
   renderErrors,
@@ -137,4 +166,5 @@ export {
   renderFeeds,
   renderPosts,
   renderViewedPosts,
+  renderPostModal,
 };
