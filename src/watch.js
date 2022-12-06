@@ -6,6 +6,7 @@ import {
   renderFormState,
   renderFeeds,
   renderPosts,
+  renderViewedPosts,
 } from './render.js';
 
 const watchDataLoadingStatus = (state, i18nInstance, value) => {
@@ -43,6 +44,9 @@ export default (state, i18nInstance) => onChange(state, (path, value) => {
       break;
     case 'posts':
       renderPosts(state.posts, i18nInstance);
+      break;
+    case 'uiState.viewedPostIds':
+      renderViewedPosts(state.uiState.viewedPostIds, i18nInstance);
       break;
     default:
       break;

@@ -105,11 +105,14 @@ const renderPosts = (posts, i18nInstance) => {
       const a = document.createElement('a');
       a.textContent = post.title;
       a.href = post.link;
+      a.target = '_blank';
       a.classList.add('fw-bold');
+      a.dataset.postId = post.id;
 
       const button = document.createElement('button');
       button.textContent = i18nInstance.t('buttons.watch');
       button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
+      button.dataset.postId = post.id;
 
       li.append(a, button);
       return li;
@@ -119,6 +122,13 @@ const renderPosts = (posts, i18nInstance) => {
   }
 };
 
+const renderViewedPosts = (viewedPostIds) => {
+  viewedPostIds.forEach((id) => {
+    const a = document.querySelector(`a[data-post-id="${id}"]`);
+    a.classList.add('link-secondary');
+  });
+};
+
 export {
   renderInitialState,
   renderErrors,
@@ -126,4 +136,5 @@ export {
   renderSuccessDataLoadingMessage,
   renderFeeds,
   renderPosts,
+  renderViewedPosts,
 };

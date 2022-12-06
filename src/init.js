@@ -94,6 +94,10 @@ export default () => {
     DOMContentLoaded: false,
     feeds: [],
     posts: [],
+    uiState: {
+      viewedPostIds: new Set(),
+      currentPostId: null,
+    },
   };
 
   const i18nInstance = i18next.createInstance();
@@ -125,6 +129,15 @@ export default () => {
           console.log(errors.errors);
           watchedState.url.errors = errors.errors;
         });
+    });
+
+    const postsEl = document.querySelector('.posts');
+    postsEl.addEventListener('click', (e) => {
+      const postEl = e.target;
+      const { postId } = postEl.dataset;
+      if (postId) {
+        watchedState.uiState.viewedPostIds.add(postId);
+      }
     });
   })
     .catch((error) => console.error(error));
