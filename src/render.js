@@ -138,6 +138,7 @@ const renderViewedPosts = (viewedPostIds) => {
   viewedPostIds.forEach((id) => {
     const a = document.querySelector(`a[data-post-id="${id}"]`);
     a.classList.add('link-secondary');
+    a.classList.replace('fw-bold', 'fw-normal');
   });
 };
 
