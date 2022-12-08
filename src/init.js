@@ -13,6 +13,7 @@ const validateForm = (formData, state, i18nInstance = null) => {
     setLocale({
       mixed: {
         notOneOf: i18nInstance.t('inputs.url.errors.one_of'),
+        required: i18nInstance.t('inputs.url.errors.required'),
       },
       string: {
         url: i18nInstance.t('inputs.url.errors.invalid'),
