@@ -9,9 +9,7 @@ const renderInitialState = (i18nInstance) => {
   const author = document.querySelector('#author');
 
   const postModal = document.querySelector('#postModal');
-  const modalHeader = postModal.querySelector('.modal-header');
   const modalFooter = postModal.querySelector('.modal-footer');
-  const headerButtonClose = modalHeader.querySelector('.btn-close');
   const linkToResource = modalFooter.querySelector('a');
   const footerButtonClose = modalFooter.querySelector('button');
 
@@ -23,7 +21,6 @@ const renderInitialState = (i18nInstance) => {
   addButton.value = i18nInstance.t('buttons.add');
   urlExample.textContent = i18nInstance.t('inputs.url.example');
   author.textContent = i18nInstance.t('author');
-  headerButtonClose.setAttribute('aria-labelledby', i18nInstance.t('buttons.close'));
   linkToResource.textContent = i18nInstance.t('buttons.read');
   footerButtonClose.textContent = i18nInstance.t('buttons.close');
 };
