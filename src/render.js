@@ -4,7 +4,7 @@ const renderInitialState = (i18nInstance) => {
   const lead = document.querySelector('.lead');
   const urlInput = document.querySelector('#url-input');
   const urlInputLabel = document.querySelector('label[for="url-input"]');
-  const addButton = document.querySelector('input[type="submit"]');
+  const addButton = document.querySelector('button[aria-label="add"]');
   const urlExample = document.querySelector('#url-example');
   const author = document.querySelector('#author');
 
@@ -18,7 +18,7 @@ const renderInitialState = (i18nInstance) => {
   lead.textContent = i18nInstance.t('lead');
   urlInput.placeholder = i18nInstance.t('inputs.url.placeholder');
   urlInputLabel.textContent = i18nInstance.t('inputs.url.label');
-  addButton.value = i18nInstance.t('buttons.add');
+  addButton.textContent = i18nInstance.t('buttons.add');
   urlExample.textContent = i18nInstance.t('inputs.url.example');
   author.textContent = i18nInstance.t('author');
   linkToResource.textContent = i18nInstance.t('buttons.read');
@@ -41,7 +41,7 @@ const renderErrors = (errors) => {
 
 const renderFormState = (blocked = false) => {
   const form = document.querySelector('form');
-  const button = form.querySelector('input[type="submit"]');
+  const button = form.querySelector('button[type="submit"]');
   const input = form.querySelector('#url-input');
   button.disabled = blocked;
   input.disabled = blocked;
