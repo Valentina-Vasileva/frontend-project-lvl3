@@ -126,6 +126,9 @@ export default () => {
           watchedState.url.errors = [];
           uploadFeed(watchedState, i18nInstance);
         })
+        .then(() => {
+          console.log('I may be right');
+        })
         .catch((errors) => {
           console.log(errors.errors);
           watchedState.url.errors = errors.errors;
