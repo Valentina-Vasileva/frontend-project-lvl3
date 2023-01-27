@@ -22,4 +22,5 @@ $ make develop
 ```
 
 ### Link:
+https://rss.valentina-vasileva.fvds.ru/
 https://vvs-frontend-project-lvl3.vercel.app/
