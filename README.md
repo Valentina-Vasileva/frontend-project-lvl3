@@ -25,6 +25,7 @@ $ make develop
 
 ```console
 $ git clone git@github.com:Valentina-Vasileva/frontend-project-lvl3.git
+$ cd frontend-project-lvl3
 $ cp local.docker-compose.yml docker-compose.yml
 $ docker-compose up -d
 ```
