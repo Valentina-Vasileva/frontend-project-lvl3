@@ -27,7 +27,9 @@ jobs:
     - name: Update stack
       run: |
         cp master.docker-compose.yml docker-compose.yml
-        docker stack deploy --prune -c ./docker-compose.yml frontend-project-lvl3
+        docker-compose down
+        docker volume rm frontend-project-lvl3_dist
+        docker-compose up -d
         docker container prune -f
         docker image prune -f
 
