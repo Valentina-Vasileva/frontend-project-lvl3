@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker images
+      run: |
+        docker build -t vvasileva/frontend_project_lvl3 -f docker/app/Dockerfile ./
+        docker build -t vvasileva/nginx_frontend -f docker/nginx/Dockerfile docker/nginx/
+    - name: Push the Docker images
+      run: |
+        docker push vvasileva/frontend_project_lvl3
+        docker push vvasileva/nginx_frontend
+    - name: Pull the Docker images
+      run: |
+        docker pull vvasileva/frontend_project_lvl3
+        docker pull vvasileva/nginx_frontend
+    - name: Update stack
+      run: |
+        cp master.docker-compose.yml docker-compose.yml
+        docker stack deploy --prune -c ./docker-compose.yml frontend-project-lvl3
+        docker container prune -f
+        docker image prune -f
