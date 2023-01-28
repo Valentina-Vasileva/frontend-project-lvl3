@@ -21,6 +21,16 @@ $ make install
 $ make develop
 ```
 
-### Link:
-https://rss.valentina-vasileva.fvds.ru/
-https://vvs-frontend-project-lvl3.vercel.app/
+### Via docker-compose
+
+```console
+$ git clone git@github.com:Valentina-Vasileva/frontend-project-lvl3.git
+$ cp local.docker-compose.yml docker-compose.yml
+$ docker-compose up -d
+```
+
+After this you can see the project here: http://localhost:8081
+
+### Links:
+- https://rss.valentina-vasileva.fvds.ru/
+- https://vvs-frontend-project-lvl3.vercel.app/
