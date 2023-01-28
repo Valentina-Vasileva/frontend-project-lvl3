@@ -14,3 +14,6 @@ RUN set -xe \
     
 RUN rm -rf dist \
     && npx webpack
+
+WORKDIR /dist
+VOLUME ["/dist"]
