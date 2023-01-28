@@ -11,7 +11,7 @@ services:
       - dist:/app/dist:rw
 
   nginx:
-    image: vvasileva/nginx_frontend
+    image: vvasileva/nginx_frontend_project_lvl3
     restart: always
     working_dir: /usr/share/nginx/html
     ports: ['8081:80']
