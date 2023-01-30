@@ -6,4 +6,3 @@ RUN rm -rf dist && npx webpack
 
 FROM nginx
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY ./etc/nginx.conf /etc/nginx/nginx.conf
