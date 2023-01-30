@@ -1,5 +1,4 @@
 FROM node:16.16.0-alpine AS build
-ARG CACHE_DATE=2023-01-01
 COPY ./ /app
 WORKDIR /app
 RUN set -xe && npm ci    
