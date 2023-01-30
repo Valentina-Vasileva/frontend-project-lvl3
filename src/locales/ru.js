@@ -35,6 +35,6 @@ export default {
     posts: {
       title: 'Посты',
     },
-    author: 'created by Valentina testblabla',
+    author: 'created by Valentina',
   },
 };
