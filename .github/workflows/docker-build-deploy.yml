@@ -12,24 +12,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker images
+    - name: Build the Docker image
       run: |
-        docker build --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) -t vvasileva/frontend_project_lvl3 -f docker/app/Dockerfile ./
-        docker build -t vvasileva/nginx_frontend_project_lvl3 -f docker/nginx/Dockerfile docker/nginx/
-    - name: Push the Docker images
+        docker build -t vvasileva/frontend_project_lvl3 -f ./Dockerfile ./
+    - name: Push the Docker image
       run: |
         docker push vvasileva/frontend_project_lvl3
-        docker push vvasileva/nginx_frontend_project_lvl3
-    - name: Pull the Docker images
+    - name: Pull the Docker image
       run: |
         docker pull vvasileva/frontend_project_lvl3
-        docker pull vvasileva/nginx_frontend_project_lvl3
     - name: Update stack
       run: |
         cp master.docker-compose.yml docker-compose.yml
-        docker-compose down
-        docker volume rm frontend-project-lvl3_dist
-        docker-compose up -d
+        docker stack deploy --prune -c ./docker-compose.yml frontend-project-lvl3
         docker container prune -f
         docker image prune -f
 

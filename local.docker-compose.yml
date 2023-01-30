@@ -1,21 +1,8 @@
 version: '3.5'
 
-volumes:
-  dist:
-
 services:
   app:
     image: vvasileva/frontend_project_lvl3
-    restart: on-failure
-    volumes:
-      - dist:/app/dist:rw
-
-  nginx:
-    image: vvasileva/nginx_frontend_project_lvl3
     restart: always
     working_dir: /usr/share/nginx/html
     ports: ['8081:80']
-    volumes:
-      - dist:/app:ro
-    environment:
-      ROOT_DIR: '/app'

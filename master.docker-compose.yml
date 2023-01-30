@@ -1,21 +1,25 @@
 version: '3.5'
 
-volumes:
-  dist:
-
 services:
   app:
     image: vvasileva/frontend_project_lvl3
-    restart: on-failure
-    volumes:
-      - dist:/app/dist:rw
-
-  nginx:
-    image: vvasileva/nginx_frontend_project_lvl3
     restart: always
     working_dir: /usr/share/nginx/html
     ports: ['8081:80']
-    volumes:
-      - dist:/app:ro
-    environment:
-      ROOT_DIR: '/app'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    healthcheck:
+      test: curl -sS http://127.0.0.1:8081 || echo 1
+      interval: 30s
+      timeout: 3s
+      retries: 12
