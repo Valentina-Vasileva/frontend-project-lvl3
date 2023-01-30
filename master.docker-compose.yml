@@ -6,6 +6,8 @@ services:
     restart: always
     working_dir: /usr/share/nginx/html
     ports: ['8081:80']
+    volumes:
+      - /opt/logs/nginx/:/var/log/nginx/
     deploy:
       replicas: 1
       update_config:
